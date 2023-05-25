@@ -6,11 +6,11 @@ const c = canvas.getContext("2d");
 canvas.width = 1024;
 canvas.height = 576;
 
-const scale = 1.2;
+const vievportScale = 1.2;
 
 const scaledCanvas = {
-  width: canvas.width / scale,
-  height: canvas.height / scale,
+  width: canvas.width / 1.2,
+  height: canvas.height / 1.2,
 };
 
 const floorCollisions2D = [];
@@ -77,7 +77,7 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   c.save();
-  c.scale(scale, scale);
+  c.scale(1.2, 1.2);
   c.translate(0, -background.image.height + scaledCanvas.height);
   background.update();
 
