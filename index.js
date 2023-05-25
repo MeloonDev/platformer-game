@@ -6,9 +6,11 @@ const c = canvas.getContext("2d");
 canvas.width = 1024;
 canvas.height = 576;
 
+const scale = 1.2;
+
 const scaledCanvas = {
-  width: canvas.width / 1.2,
-  height: canvas.height / 1.2,
+  width: canvas.width / scale,
+  height: canvas.height / scale,
 };
 
 const floorCollisions2D = [];
@@ -46,12 +48,13 @@ platformCollisions2D.forEach((row, y) => {
 const gravity = 0.5;
 
 const player = new Player({
-  x: 0,
-  y: 0,
-});
-const player2 = new Player({
-  x: 300,
-  y: 300,
+  position: {
+    x: 500,
+    y: 0,
+  },
+  collisionBlocks,
+  imageSrc: "/img/idle.png",
+  frameRate: 6,
 });
 
 const keys = {
@@ -74,7 +77,7 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   c.save();
-  c.scale(1.2, 1.2);
+  c.scale(scale, scale);
   c.translate(0, -background.image.height + scaledCanvas.height);
   background.update();
 
@@ -82,14 +85,11 @@ function animate() {
   platformCollisionBlocks.forEach((platformCollisionBlock) =>
     platformCollisionBlock.update()
   );
-  c.restore();
-
   player.update();
-  player2.update();
-
   player.velocity.x = 0;
   if (keys.d.pressed) player.velocity.x = 5;
   else if (keys.a.pressed) player.velocity.x = -5;
+  c.restore();
 }
 
 animate();
@@ -106,7 +106,7 @@ window.addEventListener("keydown", (e) => {
       break;
     case "ArrowUp":
     case "w":
-      player.velocity.y = -20;
+      player.velocity.y = -14;
       break;
   }
 });
