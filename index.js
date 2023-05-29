@@ -6,7 +6,7 @@ const c = canvas.getContext("2d");
 canvas.width = 1024;
 canvas.height = 576;
 
-const vievportScale = 1.2;
+// const vievportScale = 1.2;
 
 const scaledCanvas = {
   width: canvas.width / 1.2,
@@ -45,7 +45,7 @@ platformCollisions2D.forEach((row, y) => {
   });
 });
 
-const gravity = 0.2;
+const gravity = 0.3;
 
 const player = new Player({
   position: {
@@ -104,6 +104,13 @@ const background = new Sprite({
   imageSrc: "./img/background.png",
 });
 
+const camera = {
+  position: {
+    x: 0,
+    y: 0,
+  },
+};
+
 function animate() {
   window.requestAnimationFrame(animate);
   c.fillStyle = "white";
@@ -111,23 +118,31 @@ function animate() {
 
   c.save();
   c.scale(1.2, 1.2);
-  c.translate(0, -background.image.height + scaledCanvas.height);
+  c.translate(
+    camera.position.x,
+    -background.image.height + scaledCanvas.height
+  );
   background.update();
 
   collisionBlocks.forEach((collisionBlock) => collisionBlock.update());
   platformCollisionBlocks.forEach((platformCollisionBlock) =>
     platformCollisionBlock.update()
   );
+
+  player.checkForHorizontalCanvasCollisions();
   player.update();
+
   player.velocity.x = 0;
   if (keys.d.pressed) {
     player.switchSprite("Run");
     player.velocity.x = 5;
     player.lastDirection = "right";
+    player.shouldPanCameraToTheLeft({ canvas, camera });
   } else if (keys.a.pressed) {
     player.switchSprite("RunLeft");
     player.velocity.x = -5;
     player.lastDirection = "left";
+    player.shouldPanCameraToTheRight({ canvas, camera });
   } else if (player.velocity.y === 0) {
     player.switchSprite("Idle");
     if (player.lastDirection === "right") player.switchSprite("Idle");
@@ -156,7 +171,7 @@ window.addEventListener("keydown", (e) => {
       break;
     case "ArrowUp":
     case "w":
-      player.velocity.y = -9;
+      player.velocity.y = -11;
       break;
   }
 });
