@@ -55,6 +55,38 @@ const player = new Player({
   collisionBlocks,
   imageSrc: "/img/idle.png",
   frameRate: 6,
+  animations: {
+    Idle: {
+      imageSrc: "/img/idle.png",
+      frameRate: 6,
+      frameBuffer: 6,
+    },
+    IdleLeft: {
+      imageSrc: "/img/idleL.png",
+      frameRate: 6,
+      frameBuffer: 6,
+    },
+    Run: {
+      imageSrc: "/img/run.png",
+      frameRate: 2,
+      frameBuffer: 8,
+    },
+    RunLeft: {
+      imageSrc: "/img/runL.png",
+      frameRate: 2,
+      frameBuffer: 8,
+    },
+    Jump: {
+      imageSrc: "/img/jump.png",
+      frameRate: 1,
+      frameBuffer: 3,
+    },
+    JumpLeft: {
+      imageSrc: "/img/jumpL.png",
+      frameRate: 1,
+      frameBuffer: 3,
+    },
+  },
 });
 
 const keys = {
@@ -87,8 +119,25 @@ function animate() {
   );
   player.update();
   player.velocity.x = 0;
-  if (keys.d.pressed) player.velocity.x = 5;
-  else if (keys.a.pressed) player.velocity.x = -5;
+  if (keys.d.pressed) {
+    player.switchSprite("Run");
+    player.velocity.x = 5;
+    player.lastDirection = "right";
+  } else if (keys.a.pressed) {
+    player.switchSprite("RunLeft");
+    player.velocity.x = -5;
+    player.lastDirection = "left";
+  } else if (player.velocity.y === 0) {
+    player.switchSprite("Idle");
+    if (player.lastDirection === "right") player.switchSprite("Idle");
+    else player.switchSprite("IdleLeft");
+  }
+  if (player.velocity.y != 0) {
+    player.switchSprite("Jump");
+    if (player.lastDirection === "right") player.switchSprite("Jump");
+    else if (player.lastDirection === "left") player.switchSprite("JumpLeft");
+  }
+
   c.restore();
 }
 
