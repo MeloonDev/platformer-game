@@ -45,7 +45,7 @@ platformCollisions2D.forEach((row, y) => {
   });
 });
 
-const gravity = 0.5;
+const gravity = 0.2;
 
 const player = new Player({
   position: {
@@ -53,6 +53,7 @@ const player = new Player({
     y: 650,
   },
   collisionBlocks,
+  platformCollisionBlocks,
   imageSrc: "/img/idle.png",
   frameRate: 6,
   animations: {
@@ -155,7 +156,7 @@ window.addEventListener("keydown", (e) => {
       break;
     case "ArrowUp":
     case "w":
-      player.velocity.y = -14;
+      player.velocity.y = -9;
       break;
   }
 });
