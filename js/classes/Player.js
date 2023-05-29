@@ -95,6 +95,29 @@ class Player extends Sprite {
     }
   }
 
+  shouldPanCameraDown({ canvas, camera }) {
+    if (this.cameraBox.position.y + this.velocity.y <= 0) return;
+
+    if (this.cameraBox.position.y <= Math.abs(camera.position.y)) {
+      camera.position.y -= this.velocity.y;
+    }
+  }
+
+  shouldPanCameraUp({ canvas, camera }) {
+    if (
+      this.cameraBox.position.y + this.cameraBox.height + this.velocity.y >=
+      960
+    )
+      return;
+
+    if (
+      this.cameraBox.position.y + this.cameraBox.height >=
+      Math.abs(camera.position.y) + canvas.height / 1.2
+    ) {
+      camera.position.y -= this.velocity.y;
+    }
+  }
+
   update() {
     this.updateFrames();
     this.updateHitbox();
@@ -114,7 +137,7 @@ class Player extends Sprite {
     );
 
     //draws out the camera box
-    c.fillStyle = "rgba(0, 0, 255, .2)";
+    c.fillStyle = "rgba(0, 0, 255, 0)";
     c.fillRect(
       this.cameraBox.position.x,
       this.cameraBox.position.y,
