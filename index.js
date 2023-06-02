@@ -1,12 +1,8 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
-// canvas.width = window.innerWidth;
-// canvas.height = window.innerHeight;
 canvas.width = 1024;
 canvas.height = 576;
-
-// const vievportScale = 1.2;
 
 const scaledCanvas = {
   width: canvas.width / 1.2,
@@ -173,7 +169,7 @@ window.addEventListener("keydown", (e) => {
       break;
     case "ArrowUp":
     case "w":
-      player.velocity.y = -11;
+      if (player.velocity.y === 0) player.velocity.y = -11;
       break;
   }
 });
