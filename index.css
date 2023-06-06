@@ -6,7 +6,8 @@
 body {
   position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   background: #000;
   width: 100%;
@@ -23,6 +24,16 @@ body {
   background-position: center;
   background-size: cover;
   z-index: -1;
+}
+
+.instruction {
+  width: 1024px;
+  height: 200px;
+  margin: 10px 0;
+  background-image: url("./img/instruction.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 canvas {
